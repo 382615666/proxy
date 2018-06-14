@@ -1,14 +1,22 @@
 const express = require('express')
 const proxy = require('http-proxy-middleware')
 const jwt = require('jsonwebtoken')
+const bodyParser = require('body-parser')
 
 const app = express()
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
 
-const token = jwt.sign({a: 1}, 't')
-const a = jwt.decode(token, 't')
-console.log(token)
-console.log(a)
+app.use((req, res, next) => {
+    const token = req.query.access_token
+    const user = jwt.decode(token, 'test')
+    if (user) {
+        next()
+    } else {
+
+    }
+})
 
 app.use(proxy('/cms/v1', {
     target: 'http://127.0.0.1:8000'
