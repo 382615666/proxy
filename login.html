@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html{
+            background: #e5e5e5;
+        }
+        body{
+            margin: 0;
+            color: #666;
+        }
+        h1,h5{
+            font-weight:normal;
+            margin: 0;
+        }
+        p{
+            margin: 0;
+        }
+        .main{
+            position: fixed;
+            top: 25%;
+            width: 100%;
+        }
+        .content{
+            background: #409eff;
+        }
+        .copy-right{
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+        }
+        .login-box{
+            height: 300px;
+            margin: 0 auto;
+            background: #f2f2f2;
+            width: 600px;
+            position: relative;
+            top: 20px;
+        }
+        .login-box::before,.login-box::after{
+            content: '';
+            position: absolute;
+            width: 20px;
+            height:20px;
+            bottom: 0;
+        }
+        .login-box::before{
+            right: 100%;
+            background: linear-gradient(45deg, #e5e5e5 45%, #dfe0e0 45%, #1a334e 100%);
+        }
+        .login-box::after{
+            left: 100%;
+            background: linear-gradient(-45deg, #e5e5e5 45%, #dfe0e0 45%, #1a334e 100%);
+        }
+        #app .login-btn{
+            display: block;
+            width: 100%;
+        }
+        #app{
+            padding: 40px 20px 0;
+        }
+        .system-title{
+            text-align: center;
+            font-size: 28px;
+            padding-top: 20px;
+            color: #333;
+            font-style: italic;
+            -webkit-box-reflect: below 3px linear-gradient(transparent, transparent 50%, rgba(0,0,0,0.5));
+        }
+        .cms-icon{
+            color: #666;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_705848_3asl55ztia8.css">
+</head>
+<body>
+    <section class="main">
+        <section class="content">
+            <div class="login-box">
+                <p class="system-title">个人博客管理系统</p>
+                <div id="app">
+                    <el-form :model="form">
+                        <el-form-item>
+                            <el-input
+                                    placeholder="账号"
+                                    v-model="form.account">
+                                <i slot="prefix" class="cms-icon yonghu"></i>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-input
+                                    placeholder="密码"
+                                    v-model="form.account">
+                                <i slot="prefix" class="cms-icon icon-test"></i>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" class="login-btn">登录</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </section>
+        <aside class="copy-right">版权所有@Gana</aside>
+    </section>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/element-ui@2.4.1/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+                form: {
+                    account: '',
+                    password: ''
+                }
+            }
+        },
+        methods: {
+            onSubmit () {
+                axios.post('/login', {aa:11,bb:11}).then(res => {
+                    window.location.href = 'http://www.baidu.com?token=' + res.data.token
+                })
+            }
+        }
+    })
+</script>
+</html>
