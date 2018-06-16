@@ -3,8 +3,12 @@ const proxy = require('http-proxy-middleware')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const path = require('path')
+const fs = require('fs')
+const mongoose = require('mongoose')
 
 const app = express()
+
+
 
 
 app.use(bodyParser.json())
@@ -36,6 +40,11 @@ app.use((req, res, next) => {
 })
 
 
+const db = JSON.parse(fs.readFileSync(path.join(__dirname, './config/mongo.json'), 'utf-8'))
+mongoose.connect(`mongodb://${db.user}:${db.pwd}@${db.ip}:${db.port}/${db.db}`).then((a) => {
+}, err => {
+    console.log(err)
+})
 
 app.use(proxy('/cms/v1', {
     target: 'http://127.0.0.1:8000'
