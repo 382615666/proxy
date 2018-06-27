@@ -1,6 +1,6 @@
 const express = require('express')
 const proxy = require('http-proxy-middleware')
-const jwt = require('jsonwebtoken')
+
 const bodyParser = require('body-parser')
 const path = require('path')
 const fs = require('fs')
@@ -8,23 +8,17 @@ const mongoose = require('mongoose')
 
 const app = express()
 
-
-
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
-
-
 app.use(express.static(path.join(__dirname, './static')))
+
+//读取路由
+fs.readdirSync('./route').forEach(fileName => {
+    app.use(require(`./route/${fileName}`))
+})
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './login.html'))
-})
-
-app.post('/login', (req, res) => {
-    res.json({
-        token: jwt.sign({a:1}, 'test')
-    })
 })
 
 app.use((req, res, next) => {
@@ -42,6 +36,7 @@ app.use((req, res, next) => {
 
 const db = JSON.parse(fs.readFileSync(path.join(__dirname, './config/mongo.json'), 'utf-8'))
 mongoose.connect(`mongodb://${db.user}:${db.pwd}@${db.ip}:${db.port}/${db.db}`).then((a) => {
+    console.log('connetct mongodb success')
 }, err => {
     console.log(err)
 })
