@@ -48,5 +48,5 @@ app.use(proxy('/cms/v1', {
 
 
 app.listen('3001', () => {
-    console.log('start in port 3001')
+    console.log('http://127.0.0.1:3001')
 })
