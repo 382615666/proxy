@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
-import schema from '../schema/admin'
+const mongoose = require('mongoose')
+const schema = require('../schema/admin')
 
-export default mongoose.model('Admin', schema)
+module.exports = mongoose.model('Admin', schema)

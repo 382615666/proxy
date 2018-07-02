@@ -17,25 +17,8 @@ fs.readdirSync('./route').forEach(fileName => {
     app.use(require(`./route/${fileName}`))
 })
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './login.html'))
-})
-
-app.use((req, res, next) => {
-    if (req.path.indexOf('/admin') >  -1) {
-        const token = req.query.access_token
-        const user = jwt.decode(token, 'test')
-        if (user) {
-            next()
-        } else {
-            res.redirect('/')
-        }
-    }
-})
-
-
 const db = JSON.parse(fs.readFileSync(path.join(__dirname, './config/mongo.json'), 'utf-8'))
-mongoose.connect(`mongodb://${db.user}:${db.pwd}@${db.ip}:${db.port}/${db.db}`).then((a) => {
+mongoose.connect(`mongodb://${db.user}:${db.pwd}@${db.ip}:${db.port}/${db.db}`).then(() => {
     console.log('connetct mongodb success')
 }, err => {
     console.log(err)

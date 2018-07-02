@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
@@ -7,4 +7,4 @@ const adminSchema = new Schema({
     password: String
 })
 
-export default adminSchema
+module.exports = adminSchema

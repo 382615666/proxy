@@ -1,12 +1,10 @@
 const express = require('express')
-const jwt = require('jsonwebtoken')
+const admin = require('../app/controller/admin')
 
 const router = express.Router()
 
-router.post('/login', (req, res) => {
-    res.json({
-        token: jwt.sign({a:1}, 'test')
-    })
-})
+router.all('/admin/*', admin.validateToken)
+
+router.post('/login', admin.login)
 
 module.exports = router

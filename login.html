@@ -116,15 +116,20 @@
         data () {
             return {
                 form: {
-                    account: '',
-                    password: ''
+                    account: 'admin',
+                    password: '123456'
                 }
             }
         },
         methods: {
             onSubmit () {
-                axios.post('/login', {aa:11,bb:11}).then(res => {
-                    window.location.href = 'http://www.baidu.com?token=' + res.data.token
+                axios.post('/login', this.form).then(res => {
+                    if (res.data.error) {
+                        this.$message.error(res.data.error.message)
+                    } else {
+                        console.log(res.data.token)
+//                        window.location.href = ''
+                    }
                 })
             }
         }
