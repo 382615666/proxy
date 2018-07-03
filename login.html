@@ -111,6 +111,11 @@
 <script src="https://unpkg.com/element-ui@2.4.1/lib/index.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+    //获取url中的参数
+    function getQueryString (name) {
+        const result = window.location.search.substr(1).match(new RegExp("(^|&)" + name + "=([^&]*)(&|$)", 'i')); // 对querystring匹配目标参数
+        return result ? decodeURIComponent(result[2]) : ''
+    }
     new Vue({
         el: '#app',
         data () {
@@ -127,8 +132,7 @@
                     if (res.data.error) {
                         this.$message.error(res.data.error.message)
                     } else {
-                        console.log(res.data.token)
-//                        window.location.href = ''
+                        window.location.href = getQueryString('backUrl') + '?token=' + res.data.token
                     }
                 })
             }
