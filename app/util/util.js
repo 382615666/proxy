@@ -10,9 +10,23 @@ function getSecret (key) {
 }
 
 //获取url中的参数
-function getQueryString (name) {
-    const result = window.location.search.substr(1).match(new RegExp("(^|&)" + name + "=([^&]*)(&|$)", 'i')); // 对querystring匹配目标参数
-    return result ? decodeURIComponent(result[2]) : ''
+function getQueryString (url, paramKey) {
+    if (url.indexOf('#') >= 0) {
+        url = url.substr(0, url.indexOf('#'));
+    }
+    // 获取要取得的get参数位置
+    var get = url.indexOf(paramKey + '=');
+    if (get === -1) {
+        return ''
+    }
+    // 截取字符串
+    var getParamStr = url.slice(paramKey.length + get + 1);
+    // 判断截取后的字符串是否还有其他get参数
+    var nextparam = getParamStr.indexOf('&');
+    if (nextparam !== -1) {
+        getParamStr = getParamStr.slice(0, nextparam);
+    }
+    return decodeURIComponent(getParamStr)
 }
 
 module.exports = {
